@@ -1,0 +1,30 @@
+---
+import Masthead from "../../layouts/Masthead.astro";
+import { getCollection } from "astro:content";
+import site, { coverFor, sectionSlug } from "../../site.config";
+export async function getStaticPaths() {
+  const posts = await getCollection("artykuly");
+  const cats = [...new Set(posts.map((p) => p.data.category).filter(Boolean))] as string[];
+  return cats.map((name) => ({
+    params: { slug: sectionSlug(name) },
+    props: { name, posts: posts.filter((p) => p.data.category === name) },
+  }));
+}
+const { name, posts } = Astro.props;
+const sorted = [...posts].sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const meta = site.sections.find((r) => r.name === name);
+---
+<Masthead title={name} description={meta?.blurb || name} image={coverFor(name)}>
+  <main class="mx-auto max-w-3xl px-4 py-12">
+    <p class="text-xs uppercase tracking-widest text-brass"><a href="/dzielnice/">Dzielnice</a> / {name}</p>
+    <h1 class="mt-2 font-display text-5xl font-bold">{name}</h1>
+    <p class="mt-4 font-display text-xl italic text-ink/70">{meta?.blurb}</p>
+    <ul class="mt-10 space-y-4">
+      {sorted.map((post) => (
+        <li class="border-b border-ink/10 pb-3">
+          <a href={`/artykuly/${post.slug}/`} class="font-display text-2xl hover:text-river">{post.data.title}</a>
+        </li>
+      ))}
+    </ul>
+  </main>
+</Masthead>

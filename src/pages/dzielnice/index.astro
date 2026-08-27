@@ -1,0 +1,23 @@
+---
+import Masthead from "../../layouts/Masthead.astro";
+import { getCollection } from "astro:content";
+import site, { sectionSlug } from "../../site.config";
+const posts = await getCollection("artykuly");
+const cats = [...new Set(posts.map((p) => p.data.category).filter(Boolean))] as string[];
+---
+<Masthead title="Dzielnice i działy" description="Mapa tematyczna Naszego Poznania.">
+  <main class="mx-auto max-w-4xl px-4 py-12">
+    <h1 class="font-display text-4xl font-bold">Dzielnice i działy</h1>
+    <div class="mt-10 grid gap-6 md:grid-cols-2">
+      {cats.map((cat) => {
+        const meta = site.sections.find((s) => s.name === cat);
+        return (
+          <a href={`/dzielnice/${sectionSlug(cat)}/`} class="border-2 border-ink p-5 hover:bg-ink hover:text-paper">
+            <h2 class="font-display text-2xl">{cat}</h2>
+            <p class="mt-2 text-sm opacity-80">{meta?.blurb || `${posts.filter((p) => p.data.category === cat).length} materiałów`}</p>
+          </a>
+        );
+      })}
+    </div>
+  </main>
+</Masthead>

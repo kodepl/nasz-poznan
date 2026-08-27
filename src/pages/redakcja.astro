@@ -1,0 +1,23 @@
+---
+import Masthead from "../layouts/Masthead.astro";
+import site from "../site.config";
+---
+<Masthead title="Redakcja" description={`Kim jesteśmy — ${site.name}.`} image={site.aboutImage}>
+  <main class="mx-auto max-w-3xl px-4 py-12">
+    <img src={site.aboutImage} alt="Poznań" class="aspect-[16/9] w-full object-cover" />
+    <h1 class="mt-8 font-display text-4xl font-bold">Redakcja</h1>
+    <p class="mt-6 text-lg leading-relaxed">
+      {site.name} to niezależny magazyn miejski. Piszemy o Poznaniu tak, jak się w nim mieszka: o tramwajach, które się spóźniają, o festiwalach, o których warto wiedzieć wcześniej, i o dzielnicach, które zmieniają się szybciej niż mapy Google.
+    </p>
+    <p class="mt-4 leading-relaxed text-ink/80">
+      Nie gonimy breaking newsów. Wolimy jeden dobrze sprawdzony tekst niż dziesięć przepisek z komunikatów prasowych. Siedziba: {site.address}.
+    </p>
+    <div class="mt-10 flex gap-4 border-t-2 border-ink pt-6">
+      <img src={site.authorAvatar} alt={site.author} class="h-20 w-20 object-cover" />
+      <div>
+        <p class="font-display text-2xl">{site.author}</p>
+        <p class="text-sm text-ink/70">{site.authorBio}</p>
+      </div>
+    </div>
+  </main>
+</Masthead>
