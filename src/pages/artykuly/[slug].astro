@@ -19,6 +19,12 @@ const author = post.data.author ?? site.author;
 const bio = post.data.authorBio ?? site.authorBio;
 const cover = coverFor(post.data.category, post.data.image);
 const related = (await getCollection("artykuly")).filter((p) => p.slug !== post.slug && p.data.category === post.data.category).slice(0, 3);
+const pile = (await getCollection("artykuly")).sort((a, b) => +new Date(b.data.pubDate) - +new Date(a.data.pubDate));
+const here = pile.findIndex((p) => p.slug === post.slug);
+const newer = here > 0 ? pile[here - 1] : null;
+const older = here >= 0 && here < pile.length - 1 ? pile[here + 1] : null;
+const also = pile.filter((p) => p.slug !== post.slug).slice(0, 3);
+
 ---
 <Masthead title={post.data.title} description={post.data.description} image={cover}>
   <article class="mx-auto max-w-3xl px-4 py-10">
@@ -55,4 +61,12 @@ const related = (await getCollection("artykuly")).filter((p) => p.slug !== post.
       </div>
     )}
   </article>
+
+<section class="mx-auto max-w-3xl px-4 pb-16">
+  <p class="mt-10 text-xs font-semibold uppercase tracking-[0.2em] text-river">Wcześniej i później w mieście</p>
+  <div class="mt-3 grid gap-4 md:grid-cols-2">
+    {older && <a class="border border-ink/20 p-4" href={"/artykuly/" + older.slug + "/"}><span class="text-xs text-ink/50">wcześniej</span><span class="mt-1 block font-display text-2xl">{older.data.title}</span></a>}
+    {newer && <a class="border border-ink/20 p-4" href={"/artykuly/" + newer.slug + "/"}><span class="text-xs text-ink/50">później</span><span class="mt-1 block font-display text-2xl">{newer.data.title}</span></a>}
+  </div>
+</section>
 </Masthead>
