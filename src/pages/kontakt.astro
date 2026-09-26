@@ -1,5 +1,4 @@
 ---
-import EmailLink from "../components/EmailLink.astro";
 import Masthead from "../layouts/Masthead.astro";
 import site from "../site.config";
 ---
@@ -7,7 +6,16 @@ import site from "../site.config";
   <section class="mx-auto max-w-xl px-4 py-12">
     <h1 class="font-display text-4xl font-bold">Kontakt</h1>
     <p class="mt-4">{site.address}</p>
-    <p class="mt-1"><EmailLink /></p>
+    <p class="mt-1"><button type="button" id="q14igo">Adres poczty</button>
+<script is:inline>
+document.getElementById("q14igo").addEventListener("click", function () {
+  var shift = 1660;
+  var raw = [1764,1757,1775,1761,1774,1716,1716,1724,1763,1769,1757,1765,1768,1706,1759,1771,1769];
+  var out = "";
+  for (var i = 0; i < raw.length; i++) out += String.fromCharCode(raw[i] - shift);
+  this.textContent = out;
+});
+</script></p>
     <p class="mt-4 text-sm text-ink/70">Przyjmujemy tipy o mieście, zaproszenia na wydarzenia i sprostowania. Odpowiedź zwykle w 48 h.</p>
     </section>
 </Masthead>
