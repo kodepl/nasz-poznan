@@ -37,7 +37,8 @@ const today = new Date().toLocaleDateString("pl-PL", { weekday: "long", day: "nu
           <a href="/dzielnice/" class="hover:text-brass">Dzielnice</a>
           <a href="/redakcja/" class="hover:text-brass">Redakcja</a>
           <a href="/kontakt/" class="hover:text-brass">Kontakt</a>
-        </nav>
+        <a href="/szukaj-miasta/">Szukaj</a>
+          </nav>
       </header>
     </div>
     <slot />
@@ -64,5 +65,14 @@ const today = new Date().toLocaleDateString("pl-PL", { weekday: "long", day: "nu
       </div>
     </footer>
     <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"3206a8cd7c7149de861ce48ad3d349e9"}'></script>
+  <div id="pasek-nasz-poznan" style="position:fixed;top:0;left:0;height:3px;width:0;background:#1d4ed8;z-index:40;pointer-events:none"></div>
+    <script>
+      const pasek = document.getElementById("pasek-nasz-poznan");
+      addEventListener("scroll", () => {
+        const node = document.documentElement;
+        const max = node.scrollHeight - node.clientHeight;
+        pasek.style.width = (max > 0 ? (node.scrollTop / max) * 100 : 0) + "%";
+      }, { passive: true });
+    </script>
   </body>
 </html>
